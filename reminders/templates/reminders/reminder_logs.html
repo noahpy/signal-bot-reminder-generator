@@ -1,0 +1,14 @@
+{% extends "reminders/base.html" %}
+{% block content %}
+<h2>Log: {{ reminder.title }}</h2>
+<p><a href="{% url 'mapping_detail' reminder.mapping.pk %}">← back</a></p>
+{% if error %}<p class="msg error">{{ error }}</p>{% endif %}
+<p><small>The bot checks every 15 minutes; runs that sent nothing leave an empty log.</small></p>
+{% for e in executions %}
+<article>
+    <header>{{ e.started_at|slice:":16" }} <span class="badge {% if e.status == 'success' %}ok{% elif e.status == 'failed' %}err{% else %}muted{% endif %}">{{ e.status }}</span></header>
+    {% if e.log %}<pre class="log">{{ e.log }}</pre>{% endif %}
+    {% if e.error %}<pre class="log">{{ e.error }}</pre>{% endif %}
+</article>
+{% empty %}<p>No runs yet.</p>{% endfor %}
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends "reminders/base.html" %}
+{% block content %}
+<h2>Your groups</h2>
+{% if not mappings %}
+<article>
+    <p>None of your groups is connected to a Signal group yet.</p>
+    <p><small>An admin connects an LDAP group (e.g. your floor) with its Signal group. Ask your floor speaker / the admins.</small></p>
+</article>
+{% endif %}
+{% for m in mappings %}
+<article>
+    <header><a href="{% url 'mapping_detail' m.pk %}"><strong>{{ m }}</strong></a>
+        {% if not m.enabled %}<span class="badge muted">disabled</span>{% endif %}</header>
+    Signal group: {{ m.signal_group_name }} · LDAP group: <code>{{ m.ldap_group_cn }}</code> ·
+    {{ m.reminders.count }} reminder{{ m.reminders.count|pluralize }}
+</article>
+{% endfor %}
+{% endblock %}

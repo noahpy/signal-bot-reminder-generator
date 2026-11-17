@@ -1,0 +1,61 @@
+{% extends "reminders/base.html" %}
+{% block content %}
+<h2>Manage</h2>
+<article>
+    <header><strong>signal-bot</strong></header>
+    {% if bot.error %}<p class="msg error">Not reachable: {{ bot.error }}</p>
+    {% else %}
+    <p>Account: <strong>{{ bot.account|default:"none — register/link one in the signal-bot dashboard" }}</strong>
+       {% if bot.signal_running %}<span class="badge ok">running</span>{% else %}<span class="badge err">not running</span>{% endif %}</p>
+    {% endif %}
+    <div class="actions">
+        <form method="post" action="{% url 'sync_signal_groups' %}">{% csrf_token %}<button class="outline secondary">Refresh Signal groups</button></form>
+        <form method="post" action="{% url 'resync_all' %}">{% csrf_token %}<button class="outline secondary">Re-push all reminders{% if unsynced %} ({{ unsynced }} unsynced){% endif %}</button></form>
+    </div>
+</article>
+
+<h3>Group mappings</h3>
+<p><small>Members of the LDAP group can manage reminders for the Signal group. The bot must be a member of the Signal group.</small></p>
+<p><a role="button" href="{% url 'mapping_new' %}">+ New mapping</a></p>
+<div class="overflow-auto"><table>
+    <thead><tr><th>Name</th><th>LDAP group</th><th>Signal group</th><th>Reminders</th><th></th></tr></thead>
+    <tbody>
+    {% for m in mappings %}
+    <tr>
+        <td><a href="{% url 'mapping_detail' m.pk %}">{{ m }}</a> {% if not m.enabled %}<span class="badge muted">disabled</span>{% endif %}</td>
+        <td><code title="{{ m.ldap_group_dn }}">{{ m.ldap_group_cn }}</code></td>
+        <td>{{ m.signal_group_name }}</td>
+        <td>{{ m.reminders.count }}</td>
+        <td><div class="actions">
+            <a role="button" class="outline" href="{% url 'mapping_edit' m.pk %}">Edit</a>
+            <a role="button" class="outline secondary" href="{% url 'mapping_members' m.pk %}">Members</a>
+            <form method="post" action="{% url 'mapping_delete' m.pk %}" onsubmit="return confirm('Delete mapping?')">{% csrf_token %}<button class="outline contrast">Delete</button></form>
+        </div></td>
+    </tr>
+    {% empty %}<tr><td colspan="5">No mappings yet.</td></tr>{% endfor %}
+    </tbody>
+</table></div>
+
+<h3>All reminders</h3>
+<div class="overflow-auto"><table>
+    <thead><tr><th>Reminder</th><th>Group</th><th>Status</th><th>Last change</th></tr></thead>
+    <tbody>
+    {% for r in reminders %}
+    <tr>
+        <td><a href="{% url 'reminder_edit' r.pk %}">{{ r.title }}</a></td>
+        <td>{{ r.mapping }}</td>
+        <td>{% if r.enabled %}<span class="badge ok">active</span>{% else %}<span class="badge muted">paused</span>{% endif %}
+            {% if r.sync_status != "ok" %}<span class="badge err" title="{{ r.sync_error }}">{{ r.sync_status }}</span>{% endif %}</td>
+        <td><small>{{ r.updated_at|date:"Y-m-d H:i" }} {{ r.updated_by.first_name|default:r.updated_by.username }}</small></td>
+    </tr>
+    {% empty %}<tr><td colspan="4">None.</td></tr>{% endfor %}
+    </tbody>
+</table></div>
+
+<h3>Audit log</h3>
+<div class="overflow-auto"><table>
+    {% for a in audit %}
+    <tr><td><small>{{ a.created_at|date:"Y-m-d H:i" }}</small></td><td><small>{{ a.user.username|default:"—" }}</small></td><td><small>{{ a.action }}</small></td><td><small>{{ a.target }}</small></td></tr>
+    {% empty %}<tr><td>Empty.</td></tr>{% endfor %}
+</table></div>
+{% endblock %}

@@ -1,0 +1,11 @@
+[project]
+name = "signal-bot-reminder-generator"
+version = "0.1.0"
+description = "Self-service web app to create Signal reminder jobs for signal-bot, with LDAP login"
+requires-python = ">=3.11"
+dependencies = [
+    "django>=5.2,<6",
+    "ldap3>=2.9",
+    "requests>=2.32",
+    "gunicorn>=23",
+]

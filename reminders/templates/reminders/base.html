@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Signal Reminders{% endblock %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2.0.6/css/pico.min.css">
+    <style>
+        :root { --pico-font-size: 15px; }
+        .badge { display:inline-block; padding:0.1em 0.5em; border-radius:4px; font-size:0.8em; font-weight:600; }
+        .ok { background:#2e7d32; color:#fff; } .err { background:#c62828; color:#fff; }
+        .muted { background:#9e9e9e; color:#fff; } .warn { background:#f9a825; color:#000; }
+        .actions { display:flex; gap:0.4rem; flex-wrap:wrap; align-items:center; }
+        .actions form { margin:0; } .actions button, .actions a[role=button] { margin:0; padding:0.25em 0.7em; font-size:0.9em; }
+        fieldset.inline label { display:inline-block; margin-right:1rem; }
+        .sched { display:none; } .sched.active { display:block; }
+        pre.log { max-height:300px; overflow:auto; font-size:0.8em; white-space:pre-wrap; }
+        .msg { padding:0.6rem 1rem; border-radius:6px; margin-bottom:1rem; background:#e8f5e9; }
+        .msg.error { background:#ffebee; }
+        td small { color: var(--pico-muted-color); }
+    </style>
+</head>
+<body>
+<nav class="container">
+    <ul><li><a href="{% url 'index' %}"><strong>📣 Signal Reminders</strong></a></li></ul>
+    {% if user.is_authenticated %}
+    <ul>
+        {% if user.is_staff %}<li><a href="{% url 'admin_home' %}">Manage</a></li>{% endif %}
+        <li><small>{{ user.first_name|default:user.username }}</small></li>
+        <li><form method="post" action="{% url 'logout' %}" style="margin:0">{% csrf_token %}
+            <button class="outline secondary" style="padding:0.2em 0.6em;margin:0">Logout</button></form></li>
+    </ul>
+    {% endif %}
+</nav>
+<main class="container">
+    {% for m in messages %}<div class="msg {% if m.level_tag == 'error' %}error{% endif %}">{{ m }}</div>{% endfor %}
+    {% block content %}{% endblock %}
+</main>
+</body>
+</html>

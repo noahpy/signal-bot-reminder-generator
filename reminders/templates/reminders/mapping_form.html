@@ -1,0 +1,17 @@
+{% extends "reminders/base.html" %}
+{% block content %}
+<p><a href="{% url 'admin_home' %}">← Manage</a></p>
+<h2>{% if mapping %}Edit{% else %}New{% endif %} group mapping</h2>
+{% for e in errors %}<p class="msg error">{{ e }}</p>{% endfor %}
+<form method="post">{% csrf_token %}
+    <label>LDAP group (whose members may manage reminders) {{ form.ldap_group_dn }} {{ form.ldap_group_dn.errors }}</label>
+    <label>Signal group (where the bot posts) {{ form.signal_group_id }} {{ form.signal_group_id.errors }}
+        <small>Missing? Add the bot to the Signal group, then refresh:</small></label>
+    <label>{{ form.label.label }} {{ form.label }} <small>{{ form.label.help_text }}</small></label>
+    <label>{{ form.enabled }} Enabled</label>
+    <button type="submit">Save</button>
+</form>
+<form method="post" action="{% url 'sync_signal_groups' %}">{% csrf_token %}
+    <input type="hidden" name="next" value="{{ request.path }}">
+    <button class="outline secondary">Refresh Signal groups</button></form>
+{% endblock %}
