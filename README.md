@@ -21,6 +21,7 @@ their floor's Signal group (with @mentions). Replaces hand-written scripts like
 | Variable | Meaning |
 |---|---|
 | `SECRET_KEY`, `DEBUG`, `ALLOWED_HOSTS`, `CSRF_TRUSTED_ORIGINS`, `DB_PATH`, `STATIC_ROOT` | Django basics |
+| `HTTPS` | `1` when served through nginx with TLS (trust `X-Forwarded-Proto`, secure cookies) |
 | `LDAP_URI`, `LDAP_START_TLS` | e.g. `ldap://ldap.schollheim.net:389` |
 | `LDAP_BIND_DN`, `LDAP_BIND_PASSWORD` | read-only service account `cn=signal-reminder,ou=services,dc=schollheim,dc=net` |
 | `LDAP_BASE_DN`, `LDAP_USER_BASE`, `LDAP_USER_ATTR` | users are `cn=<login>,ou=users,…` |
@@ -41,7 +42,7 @@ uv run python manage.py import_putztasks /path/to/putztasks.json --mapping <id> 
 
 - Code `/opt/reminder-generator` (user `reminders`), env `/etc/reminder-generator.env`,
   DB `/var/lib/reminder-generator/db.sqlite3`.
-- `reminder-generator.service` (gunicorn on 127.0.0.1:8100); nginx serves it on port 8080
+- `reminder-generator.service` (gunicorn on 127.0.0.1:8100); nginx serves it at `https://signal-bot.schollheim.net` with the Schollheim wildcard certificate (expires 2027-01-31, renew by hand; old http/8080 links redirect)
   and on port 80 for `reminders.schollheim.net` (once DNS exists). Intranet only, no TLS yet.
 - Update: `rsync -az --delete --exclude .venv --exclude db.sqlite3 --exclude .git ./ signal-bot.schollheim.net:/opt/reminder-generator/`,
   then on the VM: `sudo chown -R reminders: /opt/reminder-generator && sudo -u reminders bash -lc 'cd /opt/reminder-generator && set -a && . /etc/reminder-generator.env && set +a && ~/.local/bin/uv sync --frozen && ~/.local/bin/uv run python manage.py migrate && ~/.local/bin/uv run python manage.py collectstatic --noinput' && sudo systemctl restart reminder-generator`
