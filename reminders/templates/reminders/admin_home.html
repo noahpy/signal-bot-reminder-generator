@@ -47,7 +47,7 @@
         <td>{{ r.mapping }}</td>
         <td>{% if r.enabled %}<span class="badge ok">{% translate "active" %}</span>{% else %}<span class="badge muted">{% translate "paused" %}</span>{% endif %}
             {% if r.sync_status != "ok" %}<span class="badge err" title="{{ r.sync_error }}">{{ r.sync_status|sync_label }}</span>{% endif %}</td>
-        <td><small>{{ r.updated_at|date:"Y-m-d H:i" }} {{ r.updated_by.first_name|default:r.updated_by.username }}</small></td>
+        <td><small>{{ r.updated_at|date:"Y-m-d H:i" }} {% if r.updated_by %}{{ r.updated_by.first_name|default:r.updated_by.username }}{% else %}{% translate "(import)" %}{% endif %}</small></td>
     </tr>
     {% empty %}<tr><td colspan="4">{% translate "None." %}</td></tr>{% endfor %}
     </tbody>
@@ -56,7 +56,7 @@
 <h3>{% translate "Audit log" %}</h3>
 <div class="overflow-auto"><table>
     {% for a in audit %}
-    <tr><td><small>{{ a.created_at|date:"Y-m-d H:i" }}</small></td><td><small>{{ a.user.username|default:"—" }}</small></td><td><small>{{ a.action }}</small></td><td><small>{{ a.target }}</small></td></tr>
+    <tr><td><small>{{ a.created_at|date:"Y-m-d H:i" }}</small></td><td><small>{% if a.user %}{{ a.user.username }}{% else %}—{% endif %}</small></td><td><small>{{ a.action }}</small></td><td><small>{{ a.target }}</small></td></tr>
     {% empty %}<tr><td>{% translate "Empty." %}</td></tr>{% endfor %}
 </table></div>
 {% endblock %}

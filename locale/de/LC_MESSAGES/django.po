@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 15:18+0100\n"
+"POT-Creation-Date: 2026-11-18 15:34+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -373,6 +373,10 @@ msgstr "aktiv"
 #: reminders/templates/reminders/mapping_detail.html:21
 msgid "paused"
 msgstr "pausiert"
+
+#: reminders/templates/reminders/admin_home.html:50
+msgid "(import)"
+msgstr "(Import)"
 
 #: reminders/templates/reminders/admin_home.html:52
 msgid "None."

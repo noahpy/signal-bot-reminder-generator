@@ -105,6 +105,7 @@ class LanguageTests(TestCase):
         client.list_groups.return_value = []
         r = self.client.get(f"/groups/{self.m.pk}/new/", HTTP_ACCEPT_LANGUAGE="en")
         self.assertContains(r, "New reminder")
+        Reminder.objects.create(mapping=self.m, title="Imported", spec={"schedule": {"type": "weekly"}})  # no updated_by
         self.client.post("/i18n/setlang/", {"language": "de", "next": "/"})
         for url in [f"/groups/{self.m.pk}/", f"/groups/{self.m.pk}/new/", "/manage/", "/"]:
             self.assertEqual(self.client.get(url).status_code, 200, url)
