@@ -1,17 +1,18 @@
 {% extends "reminders/base.html" %}
+{% load i18n %}
 {% block content %}
 <p><a href="{% url 'mapping_detail' mapping.pk %}">← {{ mapping }}</a></p>
-<h2>{% if reminder %}Edit reminder{% else %}New reminder{% endif %}</h2>
-{% if members_error %}<p class="msg error">Could not load the Signal group members: {{ members_error }}</p>{% endif %}
+<h2>{% if reminder %}{% translate "Edit reminder" %}{% else %}{% translate "New reminder" %}{% endif %}</h2>
+{% if members_error %}<p class="msg error">{% translate "Could not load the Signal group members:" %} {{ members_error }}</p>{% endif %}
 {% if form.non_field_errors %}<p class="msg error">{{ form.non_field_errors|join:" " }}</p>{% endif %}
 
 {% if preview %}
 <article>
-    <header><strong>Preview: messages in the next 120 days</strong></header>
+    <header><strong>{% translate "Preview: messages in the next 120 days" %}</strong></header>
     {% if preview.error %}<p class="msg error">{{ preview.error }}</p>{% endif %}
     {% for i in preview.items %}
         <p><small>{{ i.send_on }} {{ i.send_time }}</small><br>{{ i.text }}</p>
-    {% empty %}{% if not preview.error %}<p>No messages in this period.</p>{% endif %}{% endfor %}
+    {% empty %}{% if not preview.error %}<p>{% translate "No messages in this period." %}</p>{% endif %}{% endfor %}
 </article>
 {% endif %}
 
@@ -19,58 +20,58 @@
     <label>{{ form.title.label }} {{ form.title }} <small>{{ form.title.help_text }}</small> {{ form.title.errors }}</label>
 
     <fieldset>
-        <legend><strong>When?</strong></legend>
-        <label>Repeats {{ form.schedule_type }}</label>
+        <legend><strong>{% translate "When?" %}</strong></legend>
+        <label>{% translate "Repeats" %} {{ form.schedule_type }}</label>
         <div class="sched" data-for="weekly">
             <fieldset class="inline">{% for cb in form.weekdays %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</fieldset>
             {{ form.weekdays.errors }}
-            <label>Every how many weeks {{ form.every_weeks }} <small>{{ form.every_weeks.help_text }}</small></label>
+            <label>{% translate "Every how many weeks" %} {{ form.every_weeks }} <small>{{ form.every_weeks.help_text }}</small></label>
         </div>
         <div class="sched" data-for="monthly">
-            <label>Day of month {{ form.day_of_month }} <small>{{ form.day_of_month.help_text }}</small></label>
-            <fieldset class="inline"><legend><small>Only in these months</small></legend>{% for cb in form.months %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</fieldset>
+            <label>{% translate "Day of month" %} {{ form.day_of_month }} <small>{{ form.day_of_month.help_text }}</small></label>
+            <fieldset class="inline"><legend><small>{% translate "Only in these months" %}</small></legend>{% for cb in form.months %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}</fieldset>
         </div>
         <div class="sched" data-for="interval">
-            <label>Every N days {{ form.every_days }}</label>
+            <label>{% translate "Every N days" %} {{ form.every_days }}</label>
         </div>
         <div class="sched" data-for="once">
-            <label>Date {{ form.once_date }} {{ form.once_date.errors }}</label>
+            <label>{% translate "Date" %} {{ form.once_date }} {{ form.once_date.errors }}</label>
         </div>
         <div class="sched" data-for="dates">
-            <label>Dates {{ form.dates_text }} <small>{{ form.dates_text.help_text }}</small> {{ form.dates_text.errors }}</label>
+            <label>{% translate "Dates" %} {{ form.dates_text }} <small>{{ form.dates_text.help_text }}</small> {{ form.dates_text.errors }}</label>
         </div>
         <div class="grid">
-            <label class="sched" data-for="weekly monthly interval">Start {{ form.start }} <small>{{ form.start.help_text }}</small> {{ form.start.errors }}</label>
-            <label class="sched" data-for="weekly monthly interval">Until {{ form.until }} <small>{{ form.until.help_text }}</small></label>
+            <label class="sched" data-for="weekly monthly interval">{% translate "Start" %} {{ form.start }} <small>{{ form.start.help_text }}</small> {{ form.start.errors }}</label>
+            <label class="sched" data-for="weekly monthly interval">{% translate "Until" %} {{ form.until }} <small>{{ form.until.help_text }}</small></label>
         </div>
         <div class="grid">
-            <label>Remind days before {{ form.lead_days }} <small>{{ form.lead_days.help_text }}</small></label>
-            <label>At (time) {{ form.send_time }}</label>
+            <label>{% translate "Remind days before" %} {{ form.lead_days }} <small>{{ form.lead_days.help_text }}</small></label>
+            <label>{% translate "At (time)" %} {{ form.send_time }}</label>
         </div>
     </fieldset>
 
     <fieldset>
-        <legend><strong>Who?</strong></legend>
+        <legend><strong>{% translate "Who?" %}</strong></legend>
         {% if form.people.field.choices %}
         <div style="columns: 14rem; margin-bottom: 1rem;">
             {% for cb in form.people %}<label>{{ cb.tag }} {{ cb.choice_label }}</label>{% endfor %}
         </div>
-        {% else %}<p><small>No group members available.</small></p>{% endif %}
+        {% else %}<p><small>{% translate "No group members available." %}</small></p>{% endif %}
         {{ form.people.errors }}
         {% for r in form.assignment %}<label>{{ r.tag }} {{ r.choice_label }}</label>{% endfor %}
     </fieldset>
 
     <fieldset>
-        <legend><strong>Message</strong></legend>
+        <legend><strong>{% translate "Message" %}</strong></legend>
         {{ form.message_template }}
-        <small>{{ form.message_template.help_text }}. {% verbatim %}{timing}{% endverbatim %} becomes e.g. „fällig am Montag, 09.11. (in 4 Tagen)“ / „heute fällig“.</small>
+        <small>{{ form.message_template.help_text }}. {% translate "{timing} becomes e.g. „fällig am Montag, 09.11. (in 4 Tagen)“ / „heute fällig“ (messages are always German)." %}</small>
         {{ form.message_template.errors }}
     </fieldset>
 
-    <label>{{ form.enabled }} Active</label>
+    <label>{{ form.enabled }} {% translate "Active" %}</label>
     <div class="actions">
-        <button type="submit" name="preview" value="1" class="secondary">Preview</button>
-        <button type="submit">Save</button>
+        <button type="submit" name="preview" value="1" class="secondary">{% translate "Preview" %}</button>
+        <button type="submit">{% translate "Save" %}</button>
     </div>
 </form>
 

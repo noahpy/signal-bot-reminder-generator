@@ -90,3 +90,30 @@ class NameTests(TestCase):
         r.refresh_from_db()
         self.assertEqual(r.spec["people"][0]["name"], "Leon Fischer")
         client.put_reminder.assert_called_once()
+
+
+@mock.patch("reminders.views.client")
+class LanguageTests(TestCase):
+    def setUp(self):
+        self.m = GroupMapping.objects.create(ldap_group_dn=FLOOR, signal_group_id="g1", signal_group_name="H2F4")
+        User.objects.create_superuser("admin", password="pw")
+        self.client.login(username="admin", password="pw")
+
+    def test_switch_language(self, client):
+        client.members.return_value = MEMBERS
+        client.status.return_value = {}
+        client.list_groups.return_value = []
+        r = self.client.get(f"/groups/{self.m.pk}/new/", HTTP_ACCEPT_LANGUAGE="en")
+        self.assertContains(r, "New reminder")
+        self.client.post("/i18n/setlang/", {"language": "de", "next": "/"})
+        for url in [f"/groups/{self.m.pk}/", f"/groups/{self.m.pk}/new/", "/manage/", "/"]:
+            self.assertEqual(self.client.get(url).status_code, 200, url)
+        r = self.client.get(f"/groups/{self.m.pk}/new/")
+        self.assertContains(r, "Neue Erinnerung")
+        self.assertContains(r, "Wöchentlich")
+
+    def test_login_page_has_switcher(self, client):
+        self.client.logout()
+        r = self.client.get("/login/", HTTP_ACCEPT_LANGUAGE="en")
+        self.assertContains(r, 'name="language" value="de"')
+        self.assertContains(r, "Username")

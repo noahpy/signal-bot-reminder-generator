@@ -1,14 +1,15 @@
 {% extends "reminders/base.html" %}
+{% load i18n %}
 {% block content %}
-<p><a href="{% url 'admin_home' %}">← Manage</a></p>
-<h2>{{ mapping }} — members</h2>
+<p><a href="{% url 'admin_home' %}">← {% translate "Manage" %}</a></p>
+<h2>{{ mapping }} — {% translate "members" %}</h2>
 {% for e in errors %}<p class="msg error">{{ e }}</p>{% endfor %}
-<p><small>Matched by first name (rough). ⚠ = no one with this first name on the other side.</small></p>
+<p><small>{% translate "Matched by first name (rough). ⚠ = no one with this first name on the other side." %}</small></p>
 <div class="grid">
     <article><header>LDAP <code>{{ mapping.ldap_group_cn }}</code> ({{ ldap_rows|length }})</header>
         {% for n, ok in ldap_rows %}{{ n }}{% if not ok %} ⚠{% endif %}<br>{% endfor %}</article>
     <article><header>Signal „{{ mapping.signal_group_name }}“ ({{ signal_rows|length }})</header>
         {% for n, ok in signal_rows %}{{ n }}{% if not ok %} ⚠{% endif %}<br>{% endfor %}</article>
 </div>
-<p><a role="button" class="outline" href="{% url 'mapping_edit' mapping.pk %}">Edit mapping</a></p>
+<p><a role="button" class="outline" href="{% url 'mapping_edit' mapping.pk %}">{% translate "Edit mapping" %}</a></p>
 {% endblock %}

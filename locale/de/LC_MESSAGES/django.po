@@ -1,0 +1,776 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-18 15:18+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: reminders/forms.py:10
+msgid "Mon"
+msgstr "Mo"
+
+#: reminders/forms.py:10
+msgid "Tue"
+msgstr "Di"
+
+#: reminders/forms.py:10
+msgid "Wed"
+msgstr "Mi"
+
+#: reminders/forms.py:10
+msgid "Thu"
+msgstr "Do"
+
+#: reminders/forms.py:10
+msgid "Fri"
+msgstr "Fr"
+
+#: reminders/forms.py:10
+msgid "Sat"
+msgstr "Sa"
+
+#: reminders/forms.py:10
+msgid "Sun"
+msgstr "So"
+
+#: reminders/forms.py:12
+msgid "Jan"
+msgstr "Jan"
+
+#: reminders/forms.py:12
+msgid "Feb"
+msgstr "Feb"
+
+#: reminders/forms.py:12
+msgid "Mar"
+msgstr "Mär"
+
+#: reminders/forms.py:12
+msgid "Apr"
+msgstr "Apr"
+
+#: reminders/forms.py:12
+msgid "May"
+msgstr "Mai"
+
+#: reminders/forms.py:12
+msgid "Jun"
+msgstr "Jun"
+
+#: reminders/forms.py:12
+msgid "Jul"
+msgstr "Jul"
+
+#: reminders/forms.py:12
+msgid "Aug"
+msgstr "Aug"
+
+#: reminders/forms.py:12
+msgid "Sep"
+msgstr "Sep"
+
+#: reminders/forms.py:13
+msgid "Oct"
+msgstr "Okt"
+
+#: reminders/forms.py:13
+msgid "Nov"
+msgstr "Nov"
+
+#: reminders/forms.py:13
+msgid "Dec"
+msgstr "Dez"
+
+#: reminders/forms.py:15
+msgid "Weekly (on certain weekdays)"
+msgstr "Wöchentlich (an bestimmten Wochentagen)"
+
+#: reminders/forms.py:16
+msgid "Monthly (on a day of the month)"
+msgstr "Monatlich (an einem Tag im Monat)"
+
+#: reminders/forms.py:17
+msgid "Every N days (e.g. every 2 weeks)"
+msgstr "Alle N Tage (z. B. alle 2 Wochen)"
+
+#: reminders/forms.py:18
+msgid "List of specific dates (e.g. a rota)"
+msgstr "Liste bestimmter Termine (z. B. ein Putzplan)"
+
+#: reminders/forms.py:19
+msgid "Once"
+msgstr "Einmalig"
+
+#: reminders/forms.py:46
+#, python-format
+msgid "Unknown member (…%(id)s)"
+msgstr "Unbekanntes Mitglied (…%(id)s)"
+
+#: reminders/forms.py:46
+msgid "Unknown member"
+msgstr "Unbekanntes Mitglied"
+
+#: reminders/forms.py:49 reminders/templates/reminders/admin_home.html:22
+#: reminders/templates/reminders/index.html:15
+msgid "LDAP group"
+msgstr "LDAP-Gruppe"
+
+#: reminders/forms.py:50 reminders/templates/reminders/admin_home.html:22
+#: reminders/templates/reminders/index.html:15
+msgid "Signal group"
+msgstr "Signal-Gruppe"
+
+#: reminders/forms.py:51
+msgid "Display name"
+msgstr "Anzeigename"
+
+#: reminders/forms.py:51
+msgid "Optional"
+msgstr "Optional"
+
+#: reminders/forms.py:56
+#, python-format
+msgid "%(cn)s  (%(dn)s, %(n)d members)"
+msgstr "%(cn)s  (%(dn)s, %(n)d Mitglieder)"
+
+#: reminders/forms.py:61
+msgid "Title"
+msgstr "Titel"
+
+#: reminders/forms.py:62
+#, python-brace-format
+msgid "Used as {title} in the message, e.g. \"Mülldienst\""
+msgstr "Wird als {title} in der Nachricht verwendet, z. B. „Mülldienst“"
+
+#: reminders/forms.py:64
+msgid "Who gets @mentioned. Members of the Signal group."
+msgstr "Wer @erwähnt wird. Mitglieder der Signal-Gruppe."
+
+#: reminders/forms.py:65
+msgid "Mention everyone selected every time"
+msgstr "Jedes Mal alle Ausgewählten erwähnen"
+
+#: reminders/forms.py:66
+msgid "Rotate: one person per occurrence, in the order above"
+msgstr "Rotieren: eine Person pro Termin, in der Reihenfolge oben"
+
+#: reminders/forms.py:72
+msgid "1 = every week, 2 = every other week (needs a start date)"
+msgstr "1 = jede Woche, 2 = jede zweite Woche (braucht ein Startdatum)"
+
+#: reminders/forms.py:74
+msgid "31 = last day of the month"
+msgstr "31 = letzter Tag des Monats"
+
+#: reminders/forms.py:77
+msgid "Leave empty for every month"
+msgstr "Leer lassen für jeden Monat"
+
+#: reminders/forms.py:82
+msgid ""
+"One date per line, optionally followed by the name(s) responsible that day "
+"(comma separated). Without names, the selected people/rotation apply."
+msgstr ""
+"Ein Datum pro Zeile, optional gefolgt von den zuständigen Namen (durch Komma"
+" getrennt). Ohne Namen gelten die ausgewählten Personen bzw. die Rotation."
+
+#: reminders/forms.py:85
+msgid "First date (required for 'every N days'; rotation starts here)"
+msgstr "Erster Termin (nötig für „alle N Tage“; die Rotation beginnt hier)"
+
+#: reminders/forms.py:87
+msgid "Optional: stop after this date"
+msgstr "Optional: nach diesem Datum aufhören"
+
+#: reminders/forms.py:89
+msgid "Send the reminder this many days before the date (0 = on the day)"
+msgstr "So viele Tage vor dem Termin erinnern (0 = am Tag selbst)"
+
+#: reminders/forms.py:93
+#, python-brace-format
+msgid ""
+"Placeholders: {mentions} {names} {title} {date} {weekday} {days_until} "
+"{timing}"
+msgstr ""
+"Platzhalter: {mentions} {names} {title} {date} {weekday} {days_until} "
+"{timing}"
+
+#: reminders/forms.py:136
+msgid "Pick at least one weekday."
+msgstr "Wähle mindestens einen Wochentag."
+
+#: reminders/forms.py:140
+msgid "Needed when not every week."
+msgstr "Nötig, wenn nicht jede Woche."
+
+#: reminders/forms.py:148
+msgid "Needed for 'every N days'."
+msgstr "Nötig für „alle N Tage“."
+
+#: reminders/forms.py:151
+msgid "Pick the date."
+msgstr "Wähle das Datum."
+
+#: reminders/forms.py:161
+#, python-format
+msgid "Line %(i)d: can't read '%(line)s' (use 09.11.2026 or 2026-11-09)."
+msgstr ""
+"Zeile %(i)d: „%(line)s“ ist nicht lesbar (Format 09.11.2026 oder "
+"2026-11-09)."
+
+#: reminders/forms.py:166
+#, python-format
+msgid "Line %(i)d: invalid date '%(date)s'."
+msgstr "Zeile %(i)d: ungültiges Datum „%(date)s“."
+
+#: reminders/forms.py:175
+#, python-format
+msgid "Line %(i)d: no unique group member matches '%(name)s'."
+msgstr "Zeile %(i)d: kein eindeutiges Gruppenmitglied passt zu „%(name)s“."
+
+#: reminders/forms.py:183
+msgid "Enter at least one date."
+msgstr "Gib mindestens ein Datum ein."
+
+#: reminders/forms.py:187
+msgid "Rotation needs at least one person."
+msgstr "Für die Rotation braucht es mindestens eine Person."
+
+#: reminders/templates/reminders/admin_home.html:4
+#: reminders/templates/reminders/base.html:29
+#: reminders/templates/reminders/mapping_form.html:4
+#: reminders/templates/reminders/mapping_members.html:4
+msgid "Manage"
+msgstr "Verwaltung"
+
+#: reminders/templates/reminders/admin_home.html:7
+msgid "Not reachable:"
+msgstr "Nicht erreichbar:"
+
+#: reminders/templates/reminders/admin_home.html:9
+msgid "Account"
+msgstr "Konto"
+
+#: reminders/templates/reminders/admin_home.html:9
+msgid "none — register/link one in the signal-bot dashboard"
+msgstr "keins — im signal-bot-Dashboard registrieren/verknüpfen"
+
+#: reminders/templates/reminders/admin_home.html:10
+#: reminders/templatetags/reminder_tags.py:18
+msgid "running"
+msgstr "läuft"
+
+#: reminders/templates/reminders/admin_home.html:10
+msgid "not running"
+msgstr "läuft nicht"
+
+#: reminders/templates/reminders/admin_home.html:13
+#: reminders/templates/reminders/mapping_form.html:17
+msgid "Refresh Signal groups"
+msgstr "Signal-Gruppen aktualisieren"
+
+#: reminders/templates/reminders/admin_home.html:14
+msgid "Re-push all reminders"
+msgstr "Alle Erinnerungen neu übertragen"
+
+#: reminders/templates/reminders/admin_home.html:14
+#, python-format
+msgid "%(unsynced)s unsynced"
+msgstr "%(unsynced)s nicht synchronisiert"
+
+#: reminders/templates/reminders/admin_home.html:18
+msgid "Group mappings"
+msgstr "Gruppenzuordnungen"
+
+#: reminders/templates/reminders/admin_home.html:19
+msgid ""
+"Members of the LDAP group can manage reminders for the Signal group. The bot"
+" must be a member of the Signal group."
+msgstr ""
+"Mitglieder der LDAP-Gruppe können die Erinnerungen der Signal-Gruppe "
+"verwalten. Der Bot muss Mitglied der Signal-Gruppe sein."
+
+#: reminders/templates/reminders/admin_home.html:20
+msgid "New mapping"
+msgstr "Neue Zuordnung"
+
+#: reminders/templates/reminders/admin_home.html:22
+msgid "Name"
+msgstr "Name"
+
+#: reminders/templates/reminders/admin_home.html:22
+msgid "Reminders"
+msgstr "Erinnerungen"
+
+#: reminders/templates/reminders/admin_home.html:26
+#: reminders/templates/reminders/index.html:14
+msgid "disabled"
+msgstr "deaktiviert"
+
+#: reminders/templates/reminders/admin_home.html:31
+#: reminders/templates/reminders/mapping_detail.html:24
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: reminders/templates/reminders/admin_home.html:32
+msgid "Members"
+msgstr "Mitglieder"
+
+#: reminders/templates/reminders/admin_home.html:33
+msgid "Delete mapping?"
+msgstr "Zuordnung löschen?"
+
+#: reminders/templates/reminders/admin_home.html:33
+#: reminders/templates/reminders/mapping_detail.html:29
+msgid "Delete"
+msgstr "Löschen"
+
+#: reminders/templates/reminders/admin_home.html:36
+msgid "No mappings yet."
+msgstr "Noch keine Zuordnungen."
+
+#: reminders/templates/reminders/admin_home.html:40
+msgid "All reminders"
+msgstr "Alle Erinnerungen"
+
+#: reminders/templates/reminders/admin_home.html:42
+#: reminders/templates/reminders/mapping_detail.html:13
+msgid "Reminder"
+msgstr "Erinnerung"
+
+#: reminders/templates/reminders/admin_home.html:42
+msgid "Group"
+msgstr "Gruppe"
+
+#: reminders/templates/reminders/admin_home.html:42
+#: reminders/templates/reminders/mapping_detail.html:13
+msgid "Status"
+msgstr "Status"
+
+#: reminders/templates/reminders/admin_home.html:42
+msgid "Last change"
+msgstr "Letzte Änderung"
+
+#: reminders/templates/reminders/admin_home.html:48
+#: reminders/templates/reminders/mapping_detail.html:21
+msgid "active"
+msgstr "aktiv"
+
+#: reminders/templates/reminders/admin_home.html:48
+#: reminders/templates/reminders/mapping_detail.html:21
+msgid "paused"
+msgstr "pausiert"
+
+#: reminders/templates/reminders/admin_home.html:52
+msgid "None."
+msgstr "Keine."
+
+#: reminders/templates/reminders/admin_home.html:56
+msgid "Audit log"
+msgstr "Änderungsprotokoll"
+
+#: reminders/templates/reminders/admin_home.html:60
+msgid "Empty."
+msgstr "Leer."
+
+#: reminders/templates/reminders/base.html:43
+msgid "Logout"
+msgstr "Abmelden"
+
+#: reminders/templates/reminders/index.html:4
+msgid "Your groups"
+msgstr "Deine Gruppen"
+
+#: reminders/templates/reminders/index.html:7
+msgid "None of your groups is connected to a Signal group yet."
+msgstr "Keine deiner Gruppen ist bisher mit einer Signal-Gruppe verbunden."
+
+#: reminders/templates/reminders/index.html:8
+msgid ""
+"An admin connects an LDAP group (e.g. your floor) with its Signal group. Ask"
+" your floor speaker / the admins."
+msgstr ""
+"Ein Admin verbindet eine LDAP-Gruppe (z. B. deinen Flur) mit ihrer Signal-"
+"Gruppe. Frag deine Flursprecher*innen bzw. die Admins."
+
+#: reminders/templates/reminders/index.html:16
+#, python-format
+msgid "%(n)s reminder"
+msgid_plural "%(n)s reminders"
+msgstr[0] "%(n)s Erinnerung"
+msgstr[1] "%(n)s Erinnerungen"
+
+#: reminders/templates/reminders/login.html:5
+#: reminders/templates/reminders/login.html:11
+msgid "Login"
+msgstr "Anmelden"
+
+#: reminders/templates/reminders/login.html:5
+msgid "with your Schollheim account (LDAP)"
+msgstr "mit deinem Schollheim-Konto (LDAP)"
+
+#: reminders/templates/reminders/login.html:6
+msgid "Wrong username or password."
+msgstr "Benutzername oder Passwort falsch."
+
+#: reminders/templates/reminders/login.html:9
+msgid "Username"
+msgstr "Benutzername"
+
+#: reminders/templates/reminders/login.html:10
+msgid "Password"
+msgstr "Passwort"
+
+#: reminders/templates/reminders/mapping_detail.html:7
+#, python-format
+msgid ""
+"Reminders are posted by the bot into the Signal group "
+"<strong>%(group)s</strong>."
+msgstr ""
+"Der Bot postet die Erinnerungen in die Signal-Gruppe "
+"<strong>%(group)s</strong>."
+
+#: reminders/templates/reminders/mapping_detail.html:9
+#: reminders/templates/reminders/reminder_form.html:5
+msgid "New reminder"
+msgstr "Neue Erinnerung"
+
+#: reminders/templates/reminders/mapping_detail.html:10
+msgid "No reminders yet."
+msgstr "Noch keine Erinnerungen."
+
+#: reminders/templates/reminders/mapping_detail.html:13
+msgid "Next messages"
+msgstr "Nächste Nachrichten"
+
+#: reminders/templates/reminders/mapping_detail.html:18
+msgid "rotating"
+msgstr "rotierend"
+
+#: reminders/templates/reminders/mapping_detail.html:18
+#, python-format
+msgid "%(n)s person"
+msgid_plural "%(n)s people"
+msgstr[0] "%(n)s Person"
+msgstr[1] "%(n)s Personen"
+
+#: reminders/templates/reminders/mapping_detail.html:20
+msgid "(all)"
+msgstr "(alle)"
+
+#: reminders/templates/reminders/mapping_detail.html:20
+msgid "none planned"
+msgstr "keine geplant"
+
+#: reminders/templates/reminders/mapping_detail.html:22
+#: reminders/templatetags/reminder_tags.py:17
+msgid "not synced"
+msgstr "nicht synchronisiert"
+
+#: reminders/templates/reminders/mapping_detail.html:22
+#: reminders/templatetags/reminder_tags.py:17
+msgid "pending"
+msgstr "ausstehend"
+
+#: reminders/templates/reminders/mapping_detail.html:25
+msgid "Pause"
+msgstr "Pausieren"
+
+#: reminders/templates/reminders/mapping_detail.html:25
+msgid "Resume"
+msgstr "Fortsetzen"
+
+#: reminders/templates/reminders/mapping_detail.html:26
+msgid "Send the next reminder to the Signal group right now?"
+msgstr "Die nächste Erinnerung jetzt sofort an die Signal-Gruppe senden?"
+
+#: reminders/templates/reminders/mapping_detail.html:26
+msgid "Send now"
+msgstr "Jetzt senden"
+
+#: reminders/templates/reminders/mapping_detail.html:27
+msgid "Copy"
+msgstr "Kopieren"
+
+#: reminders/templates/reminders/mapping_detail.html:28
+#: reminders/templates/reminders/reminder_logs.html:4
+msgid "Log"
+msgstr "Protokoll"
+
+#: reminders/templates/reminders/mapping_detail.html:29
+msgid "Delete this reminder?"
+msgstr "Diese Erinnerung löschen?"
+
+#: reminders/templates/reminders/mapping_form.html:5
+msgid "Edit group mapping"
+msgstr "Gruppenzuordnung bearbeiten"
+
+#: reminders/templates/reminders/mapping_form.html:5
+msgid "New group mapping"
+msgstr "Neue Gruppenzuordnung"
+
+#: reminders/templates/reminders/mapping_form.html:8
+msgid "LDAP group (whose members may manage reminders)"
+msgstr "LDAP-Gruppe (deren Mitglieder Erinnerungen verwalten dürfen)"
+
+#: reminders/templates/reminders/mapping_form.html:9
+msgid "Signal group (where the bot posts)"
+msgstr "Signal-Gruppe (in die der Bot postet)"
+
+#: reminders/templates/reminders/mapping_form.html:10
+msgid "Missing? Add the bot to the Signal group, then refresh:"
+msgstr ""
+"Fehlt eine? Füge den Bot zur Signal-Gruppe hinzu und aktualisiere dann:"
+
+#: reminders/templates/reminders/mapping_form.html:12
+msgid "Enabled"
+msgstr "Aktiviert"
+
+#: reminders/templates/reminders/mapping_form.html:13
+#: reminders/templates/reminders/reminder_form.html:74
+msgid "Save"
+msgstr "Speichern"
+
+#: reminders/templates/reminders/mapping_members.html:5
+msgid "members"
+msgstr "Mitglieder"
+
+#: reminders/templates/reminders/mapping_members.html:7
+msgid ""
+"Matched by first name (rough). ⚠ = no one with this first name on the other "
+"side."
+msgstr ""
+"Grob über den Vornamen abgeglichen. ⚠ = auf der anderen Seite gibt es "
+"niemanden mit diesem Vornamen."
+
+#: reminders/templates/reminders/mapping_members.html:14
+msgid "Edit mapping"
+msgstr "Zuordnung bearbeiten"
+
+#: reminders/templates/reminders/reminder_form.html:5
+msgid "Edit reminder"
+msgstr "Erinnerung bearbeiten"
+
+#: reminders/templates/reminders/reminder_form.html:6
+msgid "Could not load the Signal group members:"
+msgstr "Die Mitglieder der Signal-Gruppe konnten nicht geladen werden:"
+
+#: reminders/templates/reminders/reminder_form.html:11
+msgid "Preview: messages in the next 120 days"
+msgstr "Vorschau: Nachrichten in den nächsten 120 Tagen"
+
+#: reminders/templates/reminders/reminder_form.html:15
+msgid "No messages in this period."
+msgstr "Keine Nachrichten in diesem Zeitraum."
+
+#: reminders/templates/reminders/reminder_form.html:23
+msgid "When?"
+msgstr "Wann?"
+
+#: reminders/templates/reminders/reminder_form.html:24
+msgid "Repeats"
+msgstr "Wiederholung"
+
+#: reminders/templates/reminders/reminder_form.html:28
+msgid "Every how many weeks"
+msgstr "Alle wie viele Wochen"
+
+#: reminders/templates/reminders/reminder_form.html:31
+msgid "Day of month"
+msgstr "Tag im Monat"
+
+#: reminders/templates/reminders/reminder_form.html:32
+msgid "Only in these months"
+msgstr "Nur in diesen Monaten"
+
+#: reminders/templates/reminders/reminder_form.html:35
+msgid "Every N days"
+msgstr "Alle N Tage"
+
+#: reminders/templates/reminders/reminder_form.html:38
+msgid "Date"
+msgstr "Datum"
+
+#: reminders/templates/reminders/reminder_form.html:41
+msgid "Dates"
+msgstr "Termine"
+
+#: reminders/templates/reminders/reminder_form.html:44
+msgid "Start"
+msgstr "Beginn"
+
+#: reminders/templates/reminders/reminder_form.html:45
+msgid "Until"
+msgstr "Bis"
+
+#: reminders/templates/reminders/reminder_form.html:48
+msgid "Remind days before"
+msgstr "Tage vorher erinnern"
+
+#: reminders/templates/reminders/reminder_form.html:49
+msgid "At (time)"
+msgstr "Um (Uhrzeit)"
+
+#: reminders/templates/reminders/reminder_form.html:54
+msgid "Who?"
+msgstr "Wer?"
+
+#: reminders/templates/reminders/reminder_form.html:59
+msgid "No group members available."
+msgstr "Keine Gruppenmitglieder verfügbar."
+
+#: reminders/templates/reminders/reminder_form.html:65
+msgid "Message"
+msgstr "Nachricht"
+
+#: reminders/templates/reminders/reminder_form.html:67
+#, python-brace-format
+msgid ""
+"{timing} becomes e.g. „fällig am Montag, 09.11. (in 4 Tagen)“ / „heute "
+"fällig“ (messages are always German)."
+msgstr ""
+"{timing} wird z. B. zu „fällig am Montag, 09.11. (in 4 Tagen)“ / „heute "
+"fällig“."
+
+#: reminders/templates/reminders/reminder_form.html:71
+msgid "Active"
+msgstr "Aktiv"
+
+#: reminders/templates/reminders/reminder_form.html:73
+msgid "Preview"
+msgstr "Vorschau"
+
+#: reminders/templates/reminders/reminder_logs.html:5
+msgid "back"
+msgstr "zurück"
+
+#: reminders/templates/reminders/reminder_logs.html:7
+msgid "Runs that sent nothing leave an empty log."
+msgstr "Läufe, die nichts gesendet haben, hinterlassen ein leeres Protokoll."
+
+#: reminders/templates/reminders/reminder_logs.html:14
+msgid "No runs yet."
+msgstr "Noch keine Läufe."
+
+#: reminders/templatetags/reminder_tags.py:10
+msgid "weekly"
+msgstr "wöchentlich"
+
+#: reminders/templatetags/reminder_tags.py:10
+msgid "monthly"
+msgstr "monatlich"
+
+#: reminders/templatetags/reminder_tags.py:10
+msgid "every N days"
+msgstr "alle N Tage"
+
+#: reminders/templatetags/reminder_tags.py:11
+msgid "date list"
+msgstr "Terminliste"
+
+#: reminders/templatetags/reminder_tags.py:11
+msgid "once"
+msgstr "einmalig"
+
+#: reminders/templatetags/reminder_tags.py:17
+msgid "synced"
+msgstr "synchronisiert"
+
+#: reminders/templatetags/reminder_tags.py:18
+msgid "success"
+msgstr "erfolgreich"
+
+#: reminders/templatetags/reminder_tags.py:18
+msgid "failed"
+msgstr "fehlgeschlagen"
+
+#: reminders/views.py:38
+msgid "You are not a member of this group."
+msgstr "Du bist kein Mitglied dieser Gruppe."
+
+#: reminders/views.py:66
+#, python-format
+msgid "%(name)s (not in group)"
+msgstr "%(name)s (nicht in der Gruppe)"
+
+#: reminders/views.py:151
+#, python-format
+msgid "Saved \"%(title)s\"."
+msgstr "„%(title)s“ gespeichert."
+
+#: reminders/views.py:153
+#, python-format
+msgid "Saved, but could not reach signal-bot: %(error)s"
+msgstr "Gespeichert, aber signal-bot ist nicht erreichbar: %(error)s"
+
+#: reminders/views.py:194
+#, python-format
+msgid "Could not delete in signal-bot: %(error)s. Try again later."
+msgstr ""
+"Löschen in signal-bot fehlgeschlagen: %(error)s. Versuche es später noch "
+"einmal."
+
+#: reminders/views.py:199
+msgid "Deleted."
+msgstr "Gelöscht."
+
+#: reminders/views.py:211
+#, python-format
+msgid "Could not reach signal-bot: %(error)s"
+msgstr "signal-bot ist nicht erreichbar: %(error)s"
+
+#: reminders/views.py:224
+#, python-format
+msgid "\"%(title)s\" is being sent to %(group)s now."
+msgstr "„%(title)s“ wird jetzt an %(group)s gesendet."
+
+#: reminders/views.py:226
+#, python-format
+msgid "Failed: %(error)s"
+msgstr "Fehlgeschlagen: %(error)s"
+
+#: reminders/views.py:295
+msgid "Mapping saved."
+msgstr "Zuordnung gespeichert."
+
+#: reminders/views.py:310
+msgid "Delete or move its reminders first (or just disable the mapping)."
+msgstr ""
+"Lösche oder verschiebe zuerst ihre Erinnerungen (oder deaktiviere die "
+"Zuordnung einfach)."
+
+#: reminders/views.py:327
+msgid "LDAP group not found."
+msgstr "LDAP-Gruppe nicht gefunden."
+
+#: reminders/views.py:368
+#, python-format
+msgid "Cleanup failed: %(error)s"
+msgstr "Aufräumen fehlgeschlagen: %(error)s"
+
+#: reminders/views.py:370
+#, python-format
+msgid ""
+"Pushed %(ok)d reminder(s), removed %(removed)d orphaned job(s) in signal-"
+"bot."
+msgstr ""
+"%(ok)d Erinnerung(en) übertragen, %(removed)d verwaiste Job(s) in signal-bot"
+" entfernt."
+
+#: reminders/views.py:379
+msgid "signal-bot is refreshing its group list (takes a few seconds)."
+msgstr ""
+"signal-bot aktualisiert seine Gruppenliste (dauert ein paar Sekunden)."

@@ -5,6 +5,7 @@ from django.contrib.admin.views.decorators import staff_member_required
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext as _
 from django.views.decorators.http import require_POST
 
 from . import client
@@ -34,7 +35,7 @@ def check_mapping(user, mapping):
     if user.is_staff:
         return
     if not mapping.enabled or mapping.ldap_group_dn.lower() not in user_group_dns(user):
-        raise PermissionDenied("You are not a member of this group.")
+        raise PermissionDenied(_("You are not a member of this group."))
 
 
 # --- sync -------------------------------------------------------------------------
@@ -62,7 +63,7 @@ def members_for(mapping, spec=None):
     keys = {m.get("uuid") or m.get("number") for m in members}
     for p in (spec or {}).get("people", []):
         if (p.get("uuid") or p.get("number")) not in keys:
-            members.append({**p, "label": f"{member_label(p)} (not in group)"})
+            members.append({**p, "label": _("%(name)s (not in group)") % {"name": member_label(p)}})
     return members, error
 
 
@@ -109,7 +110,7 @@ def mapping_detail(request, pk):
     check_mapping(request.user, mapping)
     reminders = list(mapping.reminders.all())
     if reminders:
-        members, _ = members_for(mapping)
+        members, _err = members_for(mapping)
         refresh_reminder_names(reminders, members)
     rows = [(r, next_dates(r.spec) if r.enabled else None) for r in reminders]
     return render(request, "reminders/mapping_detail.html", {"mapping": mapping, "rows": rows})
@@ -147,9 +148,9 @@ def _reminder_form_view(request, mapping, reminder=None):
                 reminder.save()
                 log(request.user, "create" if created else "update", reminder, spec=spec, enabled=reminder.enabled)
                 if push(reminder):
-                    messages.success(request, f'Saved "{reminder.title}".')
+                    messages.success(request, _('Saved "%(title)s".') % {"title": reminder.title})
                 else:
-                    messages.error(request, f"Saved, but could not reach signal-bot: {reminder.sync_error}")
+                    messages.error(request, _("Saved, but could not reach signal-bot: %(error)s") % {"error": reminder.sync_error})
                 return redirect("mapping_detail", pk=mapping.pk)
     else:
         initial = ReminderForm.initial_from_spec(spec, reminder.enabled) if reminder else None
@@ -190,12 +191,12 @@ def reminder_delete(request, pk):
     try:
         client.delete_reminder(reminder.external_id)
     except BotAPIError as e:
-        messages.error(request, f"Could not delete in signal-bot: {e}. Try again later.")
+        messages.error(request, _("Could not delete in signal-bot: %(error)s. Try again later.") % {"error": e})
         return redirect("mapping_detail", pk=reminder.mapping.pk)
     log(request.user, "delete", reminder, spec=reminder.spec)
     mapping_pk = reminder.mapping.pk
     reminder.delete()
-    messages.success(request, "Deleted.")
+    messages.success(request, _("Deleted."))
     return redirect("mapping_detail", pk=mapping_pk)
 
 
@@ -207,7 +208,7 @@ def reminder_toggle(request, pk):
     reminder.save(update_fields=["enabled"])
     log(request.user, "enable" if reminder.enabled else "disable", reminder)
     if not push(reminder):
-        messages.error(request, f"Could not reach signal-bot: {reminder.sync_error}")
+        messages.error(request, _("Could not reach signal-bot: %(error)s") % {"error": reminder.sync_error})
     return redirect("mapping_detail", pk=reminder.mapping.pk)
 
 
@@ -220,9 +221,9 @@ def reminder_run(request, pk):
             push(reminder)
         client.run_reminder(reminder.external_id)
         log(request.user, "send_now", reminder)
-        messages.success(request, f'"{reminder.title}" is being sent to {reminder.mapping.signal_group_name} now.')
+        messages.success(request, _('"%(title)s" is being sent to %(group)s now.') % {"title": reminder.title, "group": reminder.mapping.signal_group_name})
     except BotAPIError as e:
-        messages.error(request, f"Failed: {e}")
+        messages.error(request, _("Failed: %(error)s") % {"error": e})
     return redirect("mapping_detail", pk=reminder.mapping.pk)
 
 
@@ -291,7 +292,7 @@ def mapping_edit(request, pk=None):
             log(request.user, "mapping_save", mapping, ldap=mapping.ldap_group_dn, signal=mapping.signal_group_name)
             for r in mapping.reminders.all():  # group or enabled state may have changed
                 push(r)
-            messages.success(request, "Mapping saved.")
+            messages.success(request, _("Mapping saved."))
             return redirect("mapping_members", pk=mapping.pk)
     else:
         form = MappingForm(initial={
@@ -306,7 +307,7 @@ def mapping_edit(request, pk=None):
 def mapping_delete(request, pk):
     mapping = get_object_or_404(GroupMapping, pk=pk)
     if mapping.reminders.exists():
-        messages.error(request, "Delete or move its reminders first (or just disable the mapping).")
+        messages.error(request, _("Delete or move its reminders first (or just disable the mapping)."))
         return redirect("admin_home")
     log(request.user, "mapping_delete", mapping)
     mapping.delete()
@@ -323,7 +324,7 @@ def mapping_members(request, pk):
         from .ldap_backend import describe_users, list_groups
         grp = next((g for g in list_groups() if g["dn"].lower() == mapping.ldap_group_dn.lower()), None)
         if grp is None:
-            errors.append("LDAP group not found.")
+            errors.append(_("LDAP group not found."))
         else:
             ldap_names = sorted(describe_users(grp["members"]).values(), key=str.lower)
     except Exception as e:
@@ -350,7 +351,7 @@ def resync_all(request):
     for mapping in GroupMapping.objects.all():
         reminders = list(mapping.reminders.all())
         if reminders:
-            members, _ = members_for(mapping)
+            members, _err = members_for(mapping)
             for r in reminders:
                 if members:
                     refresh_names(r.spec, members)
@@ -364,9 +365,9 @@ def resync_all(request):
                 client.delete_reminder(remote["external_id"])
                 removed += 1
     except BotAPIError as e:
-        messages.error(request, f"Cleanup failed: {e}")
+        messages.error(request, _("Cleanup failed: %(error)s") % {"error": e})
     log(request.user, "resync_all", "all", pushed=ok, removed=removed)
-    messages.success(request, f"Pushed {ok} reminder(s), removed {removed} orphaned job(s) in signal-bot.")
+    messages.success(request, _("Pushed %(ok)d reminder(s), removed %(removed)d orphaned job(s) in signal-bot.") % {"ok": ok, "removed": removed})
     return redirect("admin_home")
 
 
@@ -375,7 +376,7 @@ def resync_all(request):
 def sync_signal_groups(request):
     try:
         client.sync_groups()
-        messages.success(request, "signal-bot is refreshing its group list (takes a few seconds).")
+        messages.success(request, _("signal-bot is refreshing its group list (takes a few seconds)."))
     except BotAPIError as e:
         messages.error(request, str(e))
     nxt = request.POST.get("next") or ""

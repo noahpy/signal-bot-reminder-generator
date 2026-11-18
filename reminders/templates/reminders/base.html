@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="de" data-theme="light">
+{% load i18n %}<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" data-theme="light">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -17,20 +17,32 @@
         pre.log { max-height:300px; overflow:auto; font-size:0.8em; white-space:pre-wrap; }
         .msg { padding:0.6rem 1rem; border-radius:6px; margin-bottom:1rem; background:#e8f5e9; }
         .msg.error { background:#ffebee; }
+        .lang form { margin:0; display:inline; } .lang button { padding:0.15em 0.45em; margin:0; font-size:0.8em; }
         td small { color: var(--pico-muted-color); }
     </style>
 </head>
 <body>
 <nav class="container">
     <ul><li><a href="{% url 'index' %}"><strong>📣 Signal Reminders</strong></a></li></ul>
-    {% if user.is_authenticated %}
     <ul>
-        {% if user.is_staff %}<li><a href="{% url 'admin_home' %}">Manage</a></li>{% endif %}
+        {% if user.is_authenticated %}
+        {% if user.is_staff %}<li><a href="{% url 'admin_home' %}">{% translate "Manage" %}</a></li>{% endif %}
         <li><small>{{ user.first_name|default:user.username }}</small></li>
+        {% endif %}
+        <li class="lang">
+            {% get_available_languages as langs %}
+            {% for code, name in langs %}
+            <form method="post" action="{% url 'set_language' %}">{% csrf_token %}
+                <input type="hidden" name="next" value="{{ request.get_full_path }}">
+                <button name="language" value="{{ code }}" title="{{ name }}"
+                        class="{% if code == LANGUAGE_CODE %}secondary{% else %}outline secondary{% endif %}">{{ code|upper }}</button>
+            </form>{% endfor %}
+        </li>
+        {% if user.is_authenticated %}
         <li><form method="post" action="{% url 'logout' %}" style="margin:0">{% csrf_token %}
-            <button class="outline secondary" style="padding:0.2em 0.6em;margin:0">Logout</button></form></li>
+            <button class="outline secondary" style="padding:0.2em 0.6em;margin:0">{% translate "Logout" %}</button></form></li>
+        {% endif %}
     </ul>
-    {% endif %}
 </nav>
 <main class="container">
     {% for m in messages %}<div class="msg {% if m.level_tag == 'error' %}error{% endif %}">{{ m }}</div>{% endfor %}
