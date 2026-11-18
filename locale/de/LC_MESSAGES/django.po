@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-18 15:40+0100\n"
+"POT-Creation-Date: 2026-11-18 17:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -404,11 +404,13 @@ msgstr "Keine deiner Gruppen ist bisher mit einer Signal-Gruppe verbunden."
 
 #: reminders/templates/reminders/index.html:8
 msgid ""
-"An admin connects an LDAP group (e.g. your floor) with its Signal group. Ask"
-" your floor speaker / the admins."
+"To set up reminders for your group (e.g. your floor), please contact the "
+"Netzwerkreferat (Noah Schlenker). They connect your LDAP group with its "
+"Signal group."
 msgstr ""
-"Ein Admin verbindet eine LDAP-Gruppe (z. B. deinen Flur) mit ihrer Signal-"
-"Gruppe. Frag deine Flursprecher*innen bzw. die Admins."
+"Wenn du Erinnerungen für deine Gruppe (z. B. deinen Flur) einrichten "
+"möchtest, wende dich bitte an das Netzwerkreferat (Noah Schlenker). Dort "
+"wird deine LDAP-Gruppe mit ihrer Signal-Gruppe verbunden."
 
 #: reminders/templates/reminders/index.html:16
 #, python-format
@@ -565,7 +567,6 @@ msgid "Edit mapping"
 msgstr "Zuordnung bearbeiten"
 
 #: reminders/templates/reminders/reminder_form.html:7
-#| msgid "No reminders yet."
 msgid "How reminders work"
 msgstr "So funktionieren Erinnerungen"
 
