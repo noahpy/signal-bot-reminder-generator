@@ -1,0 +1,63 @@
+<h3>How reminders work</h3>
+
+<h4>1. What happens when you save?</h4>
+<p>The reminder is checked and sent to the bot. From then on, every day at the set <strong>time</strong>
+(German time, including daylight saving), the bot checks whether a message is due today and posts it into
+this page's Signal group. Each reminder sends at most one message per day.</p>
+
+<h4>2. Date vs. reminder day</h4>
+<p><em>When?</em> defines the <strong>dates</strong> (e.g. "every Monday").
+<em>Remind days before</em> only moves the <strong>message</strong>: with 4, the reminder arrives
+4 days before the date; with 0, on the date itself.</p>
+
+<h4>3. Repeats</h4>
+<dl>
+    <dt><strong>Weekly</strong></dt>
+    <dd>On the ticked weekdays. "Every 2 weeks" needs a <em>Start</em> date to count from.</dd>
+    <dt><strong>Monthly</strong></dt>
+    <dd>On one day of the month. 31 means the last day of the month (February too).
+        Optionally only in certain months (e.g. November–April only).</dd>
+    <dt><strong>Every N days</strong></dt>
+    <dd>Every N days from the <em>Start</em> date, e.g. 14 = every two weeks on the start date's weekday.</dd>
+    <dt><strong>List of specific dates</strong></dt>
+    <dd>One date per line, optionally followed by names, e.g. <code>23.11.2026 Lilli</code> or
+        <code>30.11.2026 Leon, Adi</code>. If names are given, exactly those people are responsible.
+        Without names, the people selected under <em>Who?</em> apply (with "Rotate": taking turns line by line).
+        Names are matched against the Signal group's members (a unique first name is enough).</dd>
+    <dt><strong>Once</strong></dt>
+    <dd>Exactly one date.</dd>
+</dl>
+<p><em>Until</em> (optional) ends the repetition: there are no dates after it.</p>
+
+<h4>4. Who gets mentioned?</h4>
+<ul>
+    <li><strong>Everyone selected every time:</strong> all ticked people are @mentioned on every date.</li>
+    <li><strong>Rotate:</strong> one person per date, taking turns in the order of the <em>Who?</em> list (people already in the reminder are listed first in their rotation order; newly ticked people are added at the end).
+        Counting starts at the <em>Start</em> date: the first date from Start is the first person, the second date the
+        second person, and so on. So the Start date decides who goes first. Without a Start date the order is still fixed, but who goes first is not predictable. Check it in the preview.</li>
+</ul>
+<p>The mention points to the Signal account, not the name: everyone sees the person as saved in their own Signal,
+and the person gets a notification. Someone who has left the group is only named in the text (no notification).</p>
+
+<h4>5. Message text</h4>
+<p>The text can contain these placeholders:</p>
+<ul>
+    <li><code>{mentions}</code> – @mentions of the responsible people</li>
+    <li><code>{names}</code> – their names as plain text (no notification)</li>
+    <li><code>{title}</code> – the reminder's title</li>
+    <li><code>{date}</code> – the date, e.g. 23.11.2026</li>
+    <li><code>{weekday}</code> – the date's weekday in German, e.g. Montag</li>
+    <li><code>{days_until}</code> – days until the date (0 = today)</li>
+    <li><code>{timing}</code> – ready-made German text: „heute fällig“, „morgen fällig (24.11.)“ or
+        „fällig am Montag, 23.11. (in 4 Tagen)“</li>
+</ul>
+<p>Example: <code>Hey {mentions}, eine Erinnerung für "{title}" – {timing} :)</code><br>
+becomes: <em>Hey @Lilli, eine Erinnerung für "Mülldienst" – fällig am Montag, 23.11. (in 4 Tagen) :)</em></p>
+
+<h4>6. Trying it out</h4>
+<ul>
+    <li><strong>Preview</strong> lists every message of the next 120 days with date and text, without saving or sending anything.</li>
+    <li><strong>Send now</strong> (in the overview) posts today's (or the next) reminder to the group immediately.</li>
+    <li><strong>Pause</strong> stops a reminder without deleting it. Unticking <strong>Active</strong> does the same.</li>
+    <li><strong>Log</strong> shows when the bot sent what.</li>
+</ul>

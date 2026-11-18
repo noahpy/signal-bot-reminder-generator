@@ -118,3 +118,34 @@ class LanguageTests(TestCase):
         r = self.client.get("/login/", HTTP_ACCEPT_LANGUAGE="en")
         self.assertContains(r, 'name="language" value="de"')
         self.assertContains(r, "Username")
+
+
+@mock.patch("reminders.views.client")
+class HelpAndOrderTests(TestCase):
+    def setUp(self):
+        self.m = GroupMapping.objects.create(ldap_group_dn=FLOOR, signal_group_id="g1", signal_group_name="H2F4")
+        User.objects.create_superuser("admin", password="pw")
+        self.client.login(username="admin", password="pw")
+
+    def test_help_dialog_both_languages(self, client):
+        client.members.return_value = MEMBERS
+        r = self.client.get(f"/groups/{self.m.pk}/new/", HTTP_ACCEPT_LANGUAGE="en")
+        self.assertContains(r, "How reminders work")
+        self.assertContains(r, 'id="help-dialog"')
+        self.client.post("/i18n/setlang/", {"language": "de", "next": "/"})
+        self.assertContains(self.client.get(f"/groups/{self.m.pk}/new/"), "So funktionieren Erinnerungen")
+
+    def test_edit_keeps_rotation_order(self, client):
+        client.members.return_value = MEMBERS  # alphabetical: Leon, Lilli, Adi
+        client.preview.side_effect = lambda spec, days=60: {"spec": spec, "items": []}
+        spec = {"title": "T", "people": [{"uuid": "u3", "name": "Adi"}, {"uuid": "u1", "name": "Leon Fischer"}],
+                "assignment": "rotate", "lead_days": 0, "send_time": "09:00", "message_template": "{mentions}",
+                "schedule": {"type": "interval", "every_days": 7, "start": "2026-11-09"}}
+        r = Reminder.objects.create(mapping=self.m, title="T", spec=spec)
+        page = self.client.get(f"/reminders/{r.pk}/").content.decode()
+        self.assertLess(page.index('value="u3"'), page.index('value="u1"'))
+        # Submitting the checkboxes in page order keeps Adi before Leon.
+        self.client.post(f"/reminders/{r.pk}/", form_data(people=["u3", "u1"], assignment="rotate",
+                                                          schedule_type="interval", every_days="7", start="2026-11-09"))
+        r.refresh_from_db()
+        self.assertEqual([p["uuid"] for p in r.spec["people"]], ["u3", "u1"])

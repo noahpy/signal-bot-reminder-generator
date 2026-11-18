@@ -64,6 +64,10 @@ def members_for(mapping, spec=None):
     for p in (spec or {}).get("people", []):
         if (p.get("uuid") or p.get("number")) not in keys:
             members.append({**p, "label": _("%(name)s (not in group)") % {"name": member_label(p)}})
+    # People already in the reminder come first, in their stored (= rotation) order, so that
+    # saving the form keeps the rotation order instead of re-sorting it alphabetically.
+    order = {(p.get("uuid") or p.get("number")): i for i, p in enumerate((spec or {}).get("people", []))}
+    members.sort(key=lambda m: order.get(m.get("uuid") or m.get("number"), len(order)))
     return members, error
 
 

@@ -1,0 +1,64 @@
+<h3>So funktionieren Erinnerungen</h3>
+
+<h4>1. Was passiert beim Speichern?</h4>
+<p>Die Erinnerung wird geprüft und an den Bot übertragen. Ab dann prüft der Bot jeden Tag zur eingestellten
+<strong>Uhrzeit</strong> (deutsche Zeit, auch bei Sommer-/Winterzeit), ob heute eine Nachricht fällig ist,
+und schickt sie in die Signal-Gruppe dieser Seite. Pro Erinnerung und Tag geht höchstens eine Nachricht raus.</p>
+
+<h4>2. Termin und Erinnerungstag</h4>
+<p>Unter <em>Wann?</em> legst du die <strong>Termine</strong> fest (z. B. „jeden Montag“).
+<em>Tage vorher erinnern</em> verschiebt nur die <strong>Nachricht</strong>: Bei 4 kommt die Erinnerung
+4 Tage vor dem Termin, bei 0 am Termin selbst.</p>
+
+<h4>3. Wiederholung</h4>
+<dl>
+    <dt><strong>Wöchentlich</strong></dt>
+    <dd>An den angehakten Wochentagen. „Alle 2 Wochen“ braucht ein <em>Beginn</em>-Datum, ab dem gezählt wird.</dd>
+    <dt><strong>Monatlich</strong></dt>
+    <dd>An einem Tag im Monat. 31 bedeutet: letzter Tag des Monats (auch im Februar).
+        Optional nur in bestimmten Monaten (z. B. nur November–April).</dd>
+    <dt><strong>Alle N Tage</strong></dt>
+    <dd>Ab dem <em>Beginn</em>-Datum alle N Tage, z. B. 14 = alle zwei Wochen am selben Wochentag wie der Beginn.</dd>
+    <dt><strong>Liste bestimmter Termine</strong></dt>
+    <dd>Ein Datum pro Zeile, optional mit Namen dahinter, z. B. <code>23.11.2026 Lilli</code> oder
+        <code>30.11.2026 Leon, Adi</code>. Stehen Namen dabei, sind genau diese Personen dran.
+        Ohne Namen gelten die unter <em>Wer?</em> ausgewählten Personen (bei „Rotieren“ der Reihe nach, Zeile für Zeile).
+        Namen werden mit den Mitgliedern der Signal-Gruppe abgeglichen (ein eindeutiger Vorname reicht).</dd>
+    <dt><strong>Einmalig</strong></dt>
+    <dd>Genau ein Termin.</dd>
+</dl>
+<p><em>Bis</em> (optional) beendet die Wiederholung: Termine nach diesem Datum gibt es nicht mehr.</p>
+
+<h4>4. Wer wird erwähnt?</h4>
+<ul>
+    <li><strong>Jedes Mal alle Ausgewählten:</strong> Alle angehakten Personen werden bei jedem Termin @erwähnt.</li>
+    <li><strong>Rotieren:</strong> Pro Termin ist genau eine Person dran, der Reihe nach, in der Reihenfolge der Liste unter <em>Wer?</em> (bereits gespeicherte Personen stehen dort oben in ihrer Rotations-Reihenfolge; neu angehakte kommen hinten dran).
+        Gezählt wird ab dem <em>Beginn</em>-Datum: Der erste Termin ab Beginn ist die erste Person, der zweite die zweite usw.
+        Wer anfängt, steuerst du also über das Beginn-Datum. Ohne Beginn-Datum ist die Reihenfolge zwar fest, aber nicht vorhersehbar, wer zuerst dran ist. Prüf es in der Vorschau.</li>
+</ul>
+<p>Erwähnt wird das Signal-Konto, nicht der Name: Jeder sieht die Person so, wie er sie in Signal gespeichert hat,
+und sie bekommt eine Benachrichtigung. Ist jemand nicht mehr in der Gruppe, steht nur der Name im Text
+(ohne Benachrichtigung).</p>
+
+<h4>5. Nachrichtentext</h4>
+<p>Der Text darf diese Platzhalter enthalten:</p>
+<ul>
+    <li><code>{mentions}</code> – die @Erwähnungen der zuständigen Personen</li>
+    <li><code>{names}</code> – ihre Namen als normaler Text (ohne Benachrichtigung)</li>
+    <li><code>{title}</code> – der Titel der Erinnerung</li>
+    <li><code>{date}</code> – das Datum des Termins, z. B. 23.11.2026</li>
+    <li><code>{weekday}</code> – der Wochentag des Termins, z. B. Montag</li>
+    <li><code>{days_until}</code> – Tage bis zum Termin (0 = heute)</li>
+    <li><code>{timing}</code> – fertiger Text: „heute fällig“, „morgen fällig (24.11.)“ oder
+        „fällig am Montag, 23.11. (in 4 Tagen)“</li>
+</ul>
+<p>Beispiel: <code>Hey {mentions}, eine Erinnerung für "{title}" – {timing} :)</code><br>
+wird zu: <em>Hey @Lilli, eine Erinnerung für "Mülldienst" – fällig am Montag, 23.11. (in 4 Tagen) :)</em></p>
+
+<h4>6. Ausprobieren</h4>
+<ul>
+    <li><strong>Vorschau</strong> zeigt alle Nachrichten der nächsten 120 Tage mit Datum und Text, ohne etwas zu speichern oder zu senden.</li>
+    <li><strong>Jetzt senden</strong> (in der Übersicht) schickt die heute fällige bzw. die nächste Erinnerung sofort in die Gruppe.</li>
+    <li><strong>Pausieren</strong> stoppt eine Erinnerung, ohne sie zu löschen. <strong>Aktiv</strong> abwählen hat denselben Effekt.</li>
+    <li>Unter <strong>Protokoll</strong> siehst du, wann der Bot was gesendet hat.</li>
+</ul>

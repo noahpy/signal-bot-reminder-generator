@@ -2,7 +2,19 @@
 {% load i18n %}
 {% block content %}
 <p><a href="{% url 'mapping_detail' mapping.pk %}">← {{ mapping }}</a></p>
-<h2>{% if reminder %}{% translate "Edit reminder" %}{% else %}{% translate "New reminder" %}{% endif %}</h2>
+<h2 style="display:flex;align-items:center;gap:0.6rem">
+    <button type="button" class="outline" style="margin:0;padding:0.1em 0.65em;border-radius:50%;font-weight:700"
+            title="{% translate "How reminders work" %}" aria-label="{% translate "How reminders work" %}"
+            onclick="document.getElementById('help-dialog').showModal()">?</button>
+    {% if reminder %}{% translate "Edit reminder" %}{% else %}{% translate "New reminder" %}{% endif %}
+</h2>
+<dialog id="help-dialog" onclick="if (event.target === this) this.close()">
+    <article style="max-width:760px">
+        <header><button aria-label="{% translate "Close" %}" rel="prev" onclick="document.getElementById('help-dialog').close()"></button>
+            <strong>?</strong></header>
+        {% if LANGUAGE_CODE == "en" %}{% include "reminders/help_en.html" %}{% else %}{% include "reminders/help_de.html" %}{% endif %}
+    </article>
+</dialog>
 {% if members_error %}<p class="msg error">{% translate "Could not load the Signal group members:" %} {{ members_error }}</p>{% endif %}
 {% if form.non_field_errors %}<p class="msg error">{{ form.non_field_errors|join:" " }}</p>{% endif %}
 
