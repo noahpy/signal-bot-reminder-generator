@@ -29,6 +29,19 @@ def parse_date(s):
     return date(y, int(m), int(d))
 
 
+
+
+def member_label(m):
+    """What users see for a Signal member: name, else number, else a short anonymous tag (never a full UUID)."""
+    if m.get("label"):
+        return m["label"]
+    if (m.get("name") or "").strip():
+        return m["name"].strip()
+    if m.get("number"):
+        return m["number"]
+    uid = m.get("uuid") or ""
+    return f"Unbekanntes Mitglied (…{uid[-6:]})" if uid else "Unbekanntes Mitglied"
+
 class MappingForm(forms.Form):
     ldap_group_dn = forms.ChoiceField(label="LDAP group")
     signal_group_id = forms.ChoiceField(label="Signal group")
@@ -79,8 +92,7 @@ class ReminderForm(forms.Form):
     def __init__(self, *args, members=(), **kwargs):
         super().__init__(*args, **kwargs)
         self.members = list(members)
-        self.fields["people"].choices = [(self._key(m), m.get("name") or m.get("number") or m.get("uuid"))
-                                         for m in self.members]
+        self.fields["people"].choices = [(self._key(m), member_label(m)) for m in self.members]
 
     @staticmethod
     def _key(m):
@@ -188,7 +200,7 @@ class ReminderForm(forms.Form):
         lines = []
         for e in s.get("dates", []):
             d = date.fromisoformat(e["date"]).strftime("%d.%m.%Y")
-            names = [by_key.get(k, {}).get("name", k) for k in e.get("people", [])]
+            names = [member_label(by_key.get(k) or {"uuid": k}) for k in e.get("people", [])]
             lines.append(f"{d} {', '.join(names)}".strip())
         # People named only on specific dates aren't "selected" for the general rotation.
         dated = {k for e in s.get("dates", []) for k in e.get("people", [])}

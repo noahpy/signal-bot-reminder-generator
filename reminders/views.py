@@ -9,7 +9,7 @@ from django.views.decorators.http import require_POST
 
 from . import client
 from .client import BotAPIError
-from .forms import MappingForm, ReminderForm
+from .forms import MappingForm, ReminderForm, member_label
 from .models import AuditLog, GroupMapping, Reminder, log
 
 logger = logging.getLogger(__name__)
@@ -62,8 +62,30 @@ def members_for(mapping, spec=None):
     keys = {m.get("uuid") or m.get("number") for m in members}
     for p in (spec or {}).get("people", []):
         if (p.get("uuid") or p.get("number")) not in keys:
-            members.append({**p, "name": f'{p.get("name") or "?"} (not in group)'})
+            members.append({**p, "label": f"{member_label(p)} (not in group)"})
     return members, error
+
+
+def refresh_names(spec, members):
+    """Update the display names stored in a spec from the current Signal member list.
+    Returns True if anything changed. Names are only for display; mentions use the UUID."""
+    by_key = {m.get("uuid") or m.get("number"): m for m in members}
+    changed = False
+    for p in spec.get("people", []):
+        m = by_key.get(p.get("uuid") or p.get("number"))
+        name = (m or {}).get("name") or ""
+        if name and name != p.get("name"):
+            p["name"] = name
+            changed = True
+    return changed
+
+
+def refresh_reminder_names(reminders, members):
+    """Refresh names in stored reminders and push changed ones to signal-bot."""
+    for r in reminders:
+        if members and refresh_names(r.spec, members):
+            r.save(update_fields=["spec"])
+            push(r)
 
 
 def next_dates(spec, n=3):
@@ -85,13 +107,19 @@ def index(request):
 def mapping_detail(request, pk):
     mapping = get_object_or_404(GroupMapping, pk=pk)
     check_mapping(request.user, mapping)
-    rows = [(r, next_dates(r.spec) if r.enabled else None) for r in mapping.reminders.all()]
+    reminders = list(mapping.reminders.all())
+    if reminders:
+        members, _ = members_for(mapping)
+        refresh_reminder_names(reminders, members)
+    rows = [(r, next_dates(r.spec) if r.enabled else None) for r in reminders]
     return render(request, "reminders/mapping_detail.html", {"mapping": mapping, "rows": rows})
 
 
 def _reminder_form_view(request, mapping, reminder=None):
     spec = reminder.spec if reminder else None
     members, members_error = members_for(mapping, spec)
+    if reminder:
+        refresh_reminder_names([reminder], members)
     if request.method == "POST":
         form = ReminderForm(request.POST, members=members)
         if form.is_valid():
@@ -303,7 +331,7 @@ def mapping_members(request, pk):
     signal_members, err = members_for(mapping)
     if err:
         errors.append(f"signal-bot: {err}")
-    signal_names = sorted((m.get("name") or m.get("number") or m.get("uuid") or "?" for m in signal_members), key=str.lower)
+    signal_names = sorted((member_label(m) for m in signal_members), key=str.lower)
 
     def first(n):
         return n.split()[0].lower() if n.split() else ""
@@ -319,6 +347,14 @@ def mapping_members(request, pk):
 @staff_member_required
 @require_POST
 def resync_all(request):
+    for mapping in GroupMapping.objects.all():
+        reminders = list(mapping.reminders.all())
+        if reminders:
+            members, _ = members_for(mapping)
+            for r in reminders:
+                if members:
+                    refresh_names(r.spec, members)
+                    r.save(update_fields=["spec"])
     ok = sum(push(r) for r in Reminder.objects.select_related("mapping"))
     removed = 0
     try:

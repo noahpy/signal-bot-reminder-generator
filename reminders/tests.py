@@ -71,3 +71,22 @@ class ViewTests(TestCase):
         self.assertEqual(rem.sync_status, "ok")
         args = client.put_reminder.call_args[0]
         self.assertEqual((args[0], args[1]), (rem.external_id, "g1"))
+
+
+class NameTests(TestCase):
+    def test_labels_never_show_full_uuid(self):
+        from .forms import member_label
+        self.assertEqual(member_label({"uuid": "6ec1ae7d-a8da-44c1-8f3a-347838e89504"}), "Unbekanntes Mitglied (…e89504)")
+        self.assertEqual(member_label({"uuid": "x", "name": " Leon "}), "Leon")
+        f = ReminderForm(members=[{"uuid": "6ec1ae7d-a8da-44c1-8f3a-347838e89504"}])
+        self.assertNotIn("6ec1ae7d", str(f["people"]).replace('value="6ec1ae7d', ""))
+
+    @mock.patch("reminders.views.client")
+    def test_refresh_names_updates_spec_and_pushes(self, client):
+        from .views import refresh_reminder_names
+        m = GroupMapping.objects.create(ldap_group_dn=FLOOR, signal_group_id="g1", signal_group_name="H2F4")
+        r = Reminder.objects.create(mapping=m, title="T", spec={"people": [{"uuid": "u1"}], "schedule": {}})
+        refresh_reminder_names([r], MEMBERS)
+        r.refresh_from_db()
+        self.assertEqual(r.spec["people"][0]["name"], "Leon Fischer")
+        client.put_reminder.assert_called_once()
